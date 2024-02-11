@@ -13,8 +13,9 @@ public class UIController : MonoBehaviour
     [SerializeField] private Text _bestScoreText;
     [SerializeField] private Text _loseMenuScoreText;
     [SerializeField] private Text _cleanButtonCountText;
+    [SerializeField] private Text _dequeueButtonCountText;
     [SerializeField] private Image[] _nextFruitsUI;
-    [SerializeField] private Button _undoButton;
+    [SerializeField] private Button _dequeueButton;
 
     private void Start() {
         int score = GameController.instance.Score;
@@ -23,6 +24,7 @@ public class UIController : MonoBehaviour
         UpdateScoreText(score);
         UpdateBestScoreText(bestScore);
         UpdateCleanButtonText();
+        UpdateDequeueButtonText();
     }
 
     public void UpdateUIQueue() {
@@ -61,11 +63,29 @@ public class UIController : MonoBehaviour
         _cleanButtonCountText.text = GameController.instance.cleanCount.ToString();
     }
 
-    public void UndoButtonClick() {
-        SaveData.instance.LoadData();
+    public void DequeueButtonClick() {
+        FruitController.instance.Dequeue();
     }
 
-    public void EnableUndoButton() {
-        _undoButton.interactable = true;
+    public void UpdateDequeueButtonText() {
+        _dequeueButtonCountText.text = GameController.instance.dequeueCount.ToString();
+    }
+
+    public void DequeueButtonInteractable(bool value) {
+        _dequeueButton.interactable = value;
+    }
+
+    public IEnumerator DequeueAnimation() {
+        DequeueButtonInteractable(false);
+
+        float timer = 0;
+
+        yield return new WaitUntil(() => {
+            timer += Time.deltaTime * 4;
+
+            _nextFruitsUI[0].transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, timer);
+
+            return timer >= 1f;
+        });
     }
 }

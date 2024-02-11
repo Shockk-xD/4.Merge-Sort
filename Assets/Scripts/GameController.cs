@@ -23,7 +23,9 @@ public class GameController : MonoBehaviour {
             }
         }
     }
+
     public int cleanCount = 3;
+    public int dequeueCount = 5;
 
     private int _score = 0;
     private int _bestScore;

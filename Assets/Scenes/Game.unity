@@ -646,11 +646,12 @@ MonoBehaviour:
   _bestScoreText: {fileID: 2093079366}
   _loseMenuScoreText: {fileID: 1651391634}
   _cleanButtonCountText: {fileID: 599756104}
+  _dequeueButtonCountText: {fileID: 1348637804}
   _nextFruitsUI:
   - {fileID: 1645048853}
   - {fileID: 506044507}
   - {fileID: 1330589556}
-  _undoButton: {fileID: 870148856}
+  _dequeueButton: {fileID: 870148856}
 --- !u!4 &134340078
 Transform:
   m_ObjectHideFlags: 0
@@ -1931,7 +1932,7 @@ GameObject:
   - component: {fileID: 870148854}
   - component: {fileID: 870148856}
   m_Layer: 5
-  m_Name: Undo Button
+  m_Name: Dequeue Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1977,7 +1978,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ef78d222f634c554ea5d1e0cd67210d6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 61a8e19ab135ddd40936a16fca00b079, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2034,7 +2035,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 870148854}
   m_OnClick:
     m_PersistentCalls:
@@ -2051,22 +2052,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 879068982}
-        m_TargetAssemblyTypeName: SaveData, Assembly-CSharp
-        m_MethodName: LoadData
+      - m_Target: {fileID: 134340077}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: DequeueButtonClick
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 870148856}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Selectable, UnityEngine.UI
-        m_MethodName: set_interactable
-        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2085,7 +2074,6 @@ GameObject:
   m_Component:
   - component: {fileID: 879068981}
   - component: {fileID: 879068980}
-  - component: {fileID: 879068982}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: Untagged
@@ -2108,6 +2096,7 @@ MonoBehaviour:
   _controllerUI: {fileID: 134340077}
   _animatorUI: {fileID: 568342292}
   cleanCount: 3
+  dequeueCount: 5
 --- !u!4 &879068981
 Transform:
   m_ObjectHideFlags: 0
@@ -2123,32 +2112,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &879068982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 879068979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 232deed78a6187947a9dbb317a47c420, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fruits:
-  - {fileID: 5926949606528293214, guid: e5c76d96e0540b94687c38f671273049, type: 3}
-  - {fileID: 7499303668880983724, guid: de9e7f2d6f0157840997958c7239d226, type: 3}
-  - {fileID: 7006697067038592058, guid: c1e2c306726707d4c9b186fbd1519562, type: 3}
-  - {fileID: 4094184809552724200, guid: d10e962c2e42aa142bdf0a70e93bf3f5, type: 3}
-  - {fileID: 4324023720678491133, guid: be9ce9c007a3a9b48b7b7789d7fe9a8d, type: 3}
-  - {fileID: 148196563615274174, guid: 8515fb617e8db57428160af0cec5eb5a, type: 3}
-  - {fileID: 177943449317063068, guid: 4c33c12266da7d4479fe6b37cd496b7b, type: 3}
-  - {fileID: 7491778224154763641, guid: cc40e50ce3e4bb34db7781fde6325829, type: 3}
-  - {fileID: 5154558038423577036, guid: 116a9a84a482d7343b0c7db44258e083, type: 3}
-  - {fileID: 2880219281724289899, guid: 44c8775d8fa1be44da422576a0338eca, type: 3}
-  - {fileID: 7336463109819874770, guid: 90113dfa1e79362418e788c619fa59a0, type: 3}
-  generatedFruits: {fileID: 923377084}
-  mergedFruits: {fileID: 962323329}
 --- !u!1 &923377083
 GameObject:
   m_ObjectHideFlags: 0
@@ -3022,6 +2985,85 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1330589554}
   m_CullTransparentMesh: 1
+--- !u!1 &1348637802
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1348637803}
+  - component: {fileID: 1348637805}
+  - component: {fileID: 1348637804}
+  m_Layer: 5
+  m_Name: Text (Legacy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1348637803
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348637802}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1950655946}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -6.1}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1348637804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348637802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 1fa76d06f7c593d46aece364ce5e676c, type: 3}
+    m_FontSize: 80
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 8
+    m_MaxSize: 300
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: 0
+--- !u!222 &1348637805
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348637802}
+  m_CullTransparentMesh: 1
 --- !u!1 &1367043812
 GameObject:
   m_ObjectHideFlags: 0
@@ -3566,85 +3608,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1547969077}
-  m_CullTransparentMesh: 1
---- !u!1 &1563524614
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1563524615}
-  - component: {fileID: 1563524617}
-  - component: {fileID: 1563524616}
-  m_Layer: 5
-  m_Name: Text (Legacy)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1563524615
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1563524614}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1950655946}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4, y: -11.5}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1563524616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1563524614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 1fa76d06f7c593d46aece364ce5e676c, type: 3}
-    m_FontSize: 94
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 8
-    m_MaxSize: 300
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 1
-    m_VerticalOverflow: 1
-    m_LineSpacing: 1
-  m_Text: '?'
---- !u!222 &1563524617
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1563524614}
   m_CullTransparentMesh: 1
 --- !u!1 &1572504577
 GameObject:
@@ -4213,6 +4176,7 @@ MonoBehaviour:
   _fruitLineRenderer: {fileID: 38565726}
   _cleanParticle: {fileID: 6597128383166509725, guid: 0ba7bf1ab7bb22b468be70db6d35b0c6, type: 3}
   _destroyParticle: {fileID: 1090748511220293292, guid: cf301a3382ee3764d8b6b7e35a90eedc, type: 3}
+  nextFruits: []
   _mergedFruitTags: []
 --- !u!4 &1938434696
 Transform:
@@ -4259,7 +4223,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1563524615}
+  - {fileID: 1348637803}
   m_Father: {fileID: 870148853}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

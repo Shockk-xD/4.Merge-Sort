@@ -6,11 +6,13 @@ public class Fruit : MonoBehaviour
     [SerializeField] private int _index;
     [SerializeField] private int _scoreValue;
     [HideInInspector] public bool hasCollided = false;
+    [HideInInspector] public bool hasVibrated = false;
 
     public bool canCollide = false;
 
-    private const float MIN_COLLISION_VELOCITY = 2.5f;
+    private const float MAX_VELOCITY_SPEED = 5f;
     private Rigidbody2D _rb;
+
 
     private void Start() {
         _rb = GetComponent<Rigidbody2D>();
@@ -24,8 +26,12 @@ public class Fruit : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision) {
         CollisionProcessing(collision);
-        if (_rb.velocity.magnitude > MIN_COLLISION_VELOCITY)
+
+        float velocity = Mathf.Abs(_rb.velocity.y);
+        if (!hasVibrated || velocity > MAX_VELOCITY_SPEED) {
             VibrationController.Vibrate();
+            hasVibrated = true;
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision) {

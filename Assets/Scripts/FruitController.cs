@@ -14,7 +14,7 @@ public class FruitController : MonoBehaviour {
     [SerializeField] private GameObject _cleanParticle;
     [SerializeField] private GameObject _destroyParticle;
 
-    private List<GameObject> _nextFruits = new List<GameObject>();
+    public List<GameObject> nextFruits = new List<GameObject>();
     private GameObject _currentFruitPrefab;
 
     public List<string> _mergedFruitTags = new List<string>();
@@ -47,7 +47,7 @@ public class FruitController : MonoBehaviour {
 
         for (int i = 0; i < 3; i++) {
             randIndex = UnityEngine.Random.Range(0, 2);
-            _nextFruits.Add(_fruits[randIndex]);
+            nextFruits.Add(_fruits[randIndex]);
             _controllerUI.fruitsQueueUI.Add(_controllerUI.fruitSprites[randIndex]);
         }
 
@@ -60,11 +60,9 @@ public class FruitController : MonoBehaviour {
         StartCoroutine(SpawnAnimation(fruit, 3));
         fruit.GetComponent<Rigidbody2D>().simulated = false;
         fruit.transform.position = _generatedFruits.transform.position;
-        _controllerUI.EnableUndoButton();
     }
 
     public void DropFruit() {
-        SaveData.instance._SaveData();
         if (_timerToSpawn < 0.5f) return;
         _timerToSpawn = 0;
 
@@ -80,12 +78,12 @@ public class FruitController : MonoBehaviour {
     }
 
     public void GenerateNextFruit() {
-        _currentFruitPrefab = _nextFruits[0];
-        _nextFruits.RemoveAt(0);
+        _currentFruitPrefab = nextFruits[0];
+        nextFruits.RemoveAt(0);
         _controllerUI.fruitsQueueUI.RemoveAt(0);
 
         int randIndex = UnityEngine.Random.Range(0, 5);
-        _nextFruits.Add(_fruits[randIndex]);
+        nextFruits.Add(_fruits[randIndex]);
         _controllerUI.fruitsQueueUI.Add(_controllerUI.fruitSprites[randIndex]);
 
         SpawnFruit();
@@ -102,6 +100,7 @@ public class FruitController : MonoBehaviour {
             StartCoroutine(SpawnAnimation(fruit, 5));
             if (fruit.layer != 0)
                 fruit.layer = 0;
+            fruit.GetComponent<Fruit>().hasVibrated = true;
 
             var particle = Instantiate(_destroyParticle);
             particle.transform.position = new Vector2(
@@ -142,9 +141,11 @@ public class FruitController : MonoBehaviour {
             fruitsToDelete.AddRange(strawberries);
             fruitsToDelete.AddRange(kiwies);
 
+            fruitsToDelete.Remove(CurrentFruitGameObject);
+
             var sortedFruits = fruitsToDelete.OrderBy(f => f.transform.localPosition.y).Reverse();
 
-            if (fruitsToDelete.Count > 1) {
+            if (fruitsToDelete.Count > 0) {
                 StartCoroutine(DestroyAnimation(new List<GameObject>(sortedFruits)));
                 GameController.instance.cleanCount--;
                 _controllerUI.UpdateCleanButtonText();
@@ -165,5 +166,29 @@ public class FruitController : MonoBehaviour {
                 yield return new WaitForSeconds(0.1f);
             }
         }
-    } 
+    }
+
+    public void Dequeue() {
+        if (GameController.instance.dequeueCount > 0) {
+            StartCoroutine(DequeueRoutine());
+            GameController.instance.dequeueCount--;
+            _controllerUI.UpdateDequeueButtonText();
+        } else {
+            _controllerUI.canvasAnimator.SetTrigger("Dequeue Button Error");
+        }
+    }
+
+    private IEnumerator DequeueRoutine() {
+        yield return StartCoroutine(_controllerUI.DequeueAnimation());
+
+        nextFruits.RemoveAt(0);
+        _controllerUI.fruitsQueueUI.RemoveAt(0);
+
+        int randIndex = UnityEngine.Random.Range(0, 5);
+        nextFruits.Add(_fruits[randIndex]);
+        _controllerUI.fruitsQueueUI.Add(_controllerUI.fruitSprites[randIndex]);
+
+        _controllerUI.UpdateUIQueue();
+        _controllerUI.DequeueButtonInteractable(true);
+    }
 }
