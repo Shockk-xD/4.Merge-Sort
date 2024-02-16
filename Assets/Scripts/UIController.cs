@@ -37,7 +37,6 @@ public class UIController : MonoBehaviour
     private IEnumerator NextFruitsAnimator() {
         float t = 0;
 
-
         yield return new WaitUntil(() => {
             t += Time.deltaTime;
             for (int i = 0; i < _nextFruitsUI.Length; i++)
@@ -73,19 +72,5 @@ public class UIController : MonoBehaviour
 
     public void DequeueButtonInteractable(bool value) {
         _dequeueButton.interactable = value;
-    }
-
-    public IEnumerator DequeueAnimation() {
-        DequeueButtonInteractable(false);
-
-        float timer = 0;
-
-        yield return new WaitUntil(() => {
-            timer += Time.deltaTime * 4;
-
-            _nextFruitsUI[0].transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, timer);
-
-            return timer >= 1f;
-        });
     }
 }

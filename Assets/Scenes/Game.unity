@@ -4174,8 +4174,10 @@ MonoBehaviour:
   _generatedFruits: {fileID: 923377084}
   _mergedFruits: {fileID: 962323329}
   _fruitLineRenderer: {fileID: 38565726}
+  _line: {fileID: 38565724}
   _cleanParticle: {fileID: 6597128383166509725, guid: 0ba7bf1ab7bb22b468be70db6d35b0c6, type: 3}
   _destroyParticle: {fileID: 1090748511220293292, guid: cf301a3382ee3764d8b6b7e35a90eedc, type: 3}
+  _dequeueParticle: {fileID: 3340038178208263749, guid: 4a9d645d7aa028d42a8017ca8bc6841a, type: 3}
   nextFruits: []
   _mergedFruitTags: []
 --- !u!4 &1938434696

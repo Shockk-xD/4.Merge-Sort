@@ -45,9 +45,12 @@ public class Fruit : MonoBehaviour
                 hasCollided = true;
 
                 AudioController.instance.PlaySound(AudioController.Sound.Merge);
-                if (!FruitController.instance._mergedFruitTags.Contains(this.tag)) {
-                    FruitController.instance._mergedFruitTags.Add(this.tag);
+                if (!FruitController.instance._mergedFruitTags.Contains(this.tag)
+                    || this.CompareTag("Orange") || this.CompareTag("Pineapple")) {
                     AudioController.instance.PlaySound(AudioController.Sound.Success);
+
+                    if (!(this.CompareTag("Orange") || this.CompareTag("Pineapple")))
+                        FruitController.instance._mergedFruitTags.Add(this.tag);
                 }
 
                 Vector2 thisPosition = transform.position;

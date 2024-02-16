@@ -10,9 +10,11 @@ public class FruitController : MonoBehaviour {
     [SerializeField] private Transform _generatedFruits;
     [SerializeField] private Transform _mergedFruits;
     [SerializeField] private FruitLineRenderer _fruitLineRenderer;
+    [SerializeField] private LineRenderer _line;
 
     [SerializeField] private GameObject _cleanParticle;
     [SerializeField] private GameObject _destroyParticle;
+    [SerializeField] private GameObject _dequeueParticle;
 
     public List<GameObject> nextFruits = new List<GameObject>();
     private GameObject _currentFruitPrefab;
@@ -22,6 +24,7 @@ public class FruitController : MonoBehaviour {
     public static FruitController instance;
 
     private float _timerToSpawn = 0f;
+    private bool _isPlayingDequeueAnimation = false;
 
     public GameObject CurrentFruitGameObject {
         get {
@@ -57,13 +60,13 @@ public class FruitController : MonoBehaviour {
 
     private void SpawnFruit() {
         var fruit = Instantiate(_currentFruitPrefab, _generatedFruits);
-        StartCoroutine(SpawnAnimation(fruit, 3));
+        StartCoroutine(SpawnAnimation(fruit, 3, true));
         fruit.GetComponent<Rigidbody2D>().simulated = false;
         fruit.transform.position = _generatedFruits.transform.position;
     }
 
     public void DropFruit() {
-        if (_timerToSpawn < 0.5f) return;
+        if (_timerToSpawn < 0.5f || _isPlayingDequeueAnimation) return;
         _timerToSpawn = 0;
 
         int childCount = _generatedFruits.transform.childCount;
@@ -107,20 +110,36 @@ public class FruitController : MonoBehaviour {
                 (pos1.x + pos2.x) / 2,
                 (pos1.y + pos2.y) / 2
                 );
+        } else {
+            var particle = Instantiate(_dequeueParticle);
+            particle.transform.position = new Vector2(
+                (pos1.x + pos2.x) / 2,
+                (pos1.y + pos2.y) / 2
+                );
+            particle.transform.localScale = Vector3.one * 2;
+
+            Destroy(particle, 1.5f);
         }
     }
 
-    private IEnumerator SpawnAnimation(GameObject fruit, float speed) {
+    private IEnumerator SpawnAnimation(GameObject fruit, float speed, bool isFruitMerged = false) {
         Vector3 defaultScale = fruit.transform.localScale;
-        
+        if (isFruitMerged) 
+            _line.widthMultiplier = 0;
+
         float t = 0;
         yield return new WaitUntil(() => {
-            t += Time.deltaTime;
+            t += Time.deltaTime * speed;
 
-            fruit.transform.localScale = Vector3.Lerp(Vector3.zero, defaultScale, t * speed);
+            fruit.transform.localScale = Vector3.Lerp(Vector3.zero, defaultScale, t);
+            if (isFruitMerged)
+                _line.widthMultiplier = Mathf.Lerp(0, 0.3f, t);
 
-            return fruit.transform.localScale == defaultScale;
+            return t >= 1f;
         });
+
+        _controllerUI.DequeueButtonInteractable(true);
+        _isPlayingDequeueAnimation = false;
     }
 
     private IEnumerator ChangeLayerAfterDelay(GameObject fruit, int layer) {
@@ -170,6 +189,7 @@ public class FruitController : MonoBehaviour {
 
     public void Dequeue() {
         if (GameController.instance.dequeueCount > 0) {
+            _isPlayingDequeueAnimation = true;
             StartCoroutine(DequeueRoutine());
             GameController.instance.dequeueCount--;
             _controllerUI.UpdateDequeueButtonText();
@@ -179,16 +199,27 @@ public class FruitController : MonoBehaviour {
     }
 
     private IEnumerator DequeueRoutine() {
-        yield return StartCoroutine(_controllerUI.DequeueAnimation());
+        _controllerUI.DequeueButtonInteractable(false);
+        var currentFruit = CurrentFruitGameObject;
+        float timer = 0f;
+        
+        var particle = Instantiate(_dequeueParticle);
+        particle.transform.position = currentFruit.transform.position;
+        Destroy(particle, 1.5f);
 
-        nextFruits.RemoveAt(0);
-        _controllerUI.fruitsQueueUI.RemoveAt(0);
+        yield return new WaitUntil(() => {
+            timer += Time.deltaTime * 2f;
+            currentFruit.transform.localScale = Vector2.Lerp(
+                currentFruit.transform.localScale,
+                Vector3.zero,
+                timer
+                );
+            _line.widthMultiplier = Mathf.Lerp(_line.widthMultiplier, 0, timer);
 
-        int randIndex = UnityEngine.Random.Range(0, 5);
-        nextFruits.Add(_fruits[randIndex]);
-        _controllerUI.fruitsQueueUI.Add(_controllerUI.fruitSprites[randIndex]);
+            return timer >= 1f;
+        });
 
-        _controllerUI.UpdateUIQueue();
-        _controllerUI.DequeueButtonInteractable(true);
+        Destroy(currentFruit);
+        GenerateNextFruit();
     }
 }
