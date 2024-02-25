@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class SceneLoader : MonoBehaviour
 {
     [SerializeField] private Image _panel;
+    [SerializeField] private FruitController _controller;
 
     public void LoadScene(int id) {
         SceneManager.LoadScene(id);
@@ -16,6 +17,16 @@ public class SceneLoader : MonoBehaviour
         
         if (audioSource)
             StartCoroutine(MainMenuLoadAnimation(audioSource));
+    }
+
+    public void RestartGame() {
+        GameController.IsPlaying = false;
+        StartCoroutine(RestartAnimation());
+    }
+
+    private IEnumerator RestartAnimation() {
+        yield return StartCoroutine(_controller.DestroyAllFruitsAnimation());
+        LoadScene(1);
     }
 
     private IEnumerator MainMenuLoadAnimation(AudioSource audioSource) {

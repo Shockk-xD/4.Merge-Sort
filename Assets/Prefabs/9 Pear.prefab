@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 6366215920425924843}
   - component: {fileID: 3351724916663509235}
   - component: {fileID: -3156303669489936006}
-  m_Layer: 0
+  - component: {fileID: 1657553550774202890}
+  m_Layer: 8
   m_Name: 9 Pear
   m_TagString: Pear
   m_Icon: {fileID: 0}
@@ -103,7 +104,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: ad2f3eaaf29bfb14abc20a428b9ffead, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -195,4 +196,20 @@ MonoBehaviour:
   _index: 8
   _scoreValue: 10
   hasCollided: 0
+  hasVibrated: 0
   canCollide: 0
+--- !u!114 &1657553550774202890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5154558038423577036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f107d63f7fbfb35459b25d1ca21e9063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minX: -1.341
+  _maxX: 1.341
+  lineColor: {r: 0.9215687, g: 0.909804, b: 0.70980394, a: 0}

@@ -7,7 +7,9 @@ public class GameController : MonoBehaviour {
     [SerializeField] private Animator _animatorUI;
 
     public static GameController instance;
-    public static bool IsPlaying { get; private set; }
+    public static bool IsPlaying { get; set; }
+    public static bool IsFunMode { get; set; } = false;
+
     public int Score {
         get {
             return _score;
@@ -17,7 +19,7 @@ public class GameController : MonoBehaviour {
             _score = value;
             _controllerUI.UpdateScoreText(_score);
 
-            if (_score > _bestScore) {
+            if (_score > _bestScore && !IsFunMode) {
                 _bestScore = _score;
                 _controllerUI.UpdateBestScoreText(_bestScore);
             }
@@ -51,9 +53,13 @@ public class GameController : MonoBehaviour {
         IsPlaying = false;
     }
 
-    public void Resume() {
-        _animatorUI.SetTrigger("Back Menu Close");
+    public void Resume(string triggerName) {
+        _animatorUI.SetTrigger(triggerName);
         StartCoroutine(ChangeBoolAfterDelay());
+    }
+
+    public void EnableFunMode() {
+        IsFunMode = true;
     }
 
     private IEnumerator ChangeBoolAfterDelay() {

@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: -3953550587020559855}
   - component: {fileID: 1196026838584477832}
   - component: {fileID: -5705746302840578762}
-  m_Layer: 0
+  - component: {fileID: 6503480241777855001}
+  m_Layer: 8
   m_Name: 10 Pineapple
   m_TagString: Pineapple
   m_Icon: {fileID: 0}
@@ -103,7 +104,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: ad2f3eaaf29bfb14abc20a428b9ffead, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -164,4 +165,20 @@ MonoBehaviour:
   _index: 9
   _scoreValue: 15
   hasCollided: 0
+  hasVibrated: 0
   canCollide: 0
+--- !u!114 &6503480241777855001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2880219281724289899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f107d63f7fbfb35459b25d1ca21e9063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minX: -1.249
+  _maxX: 1.249
+  lineColor: {r: 0.9058824, g: 0.7607844, b: 0.20000002, a: 0}

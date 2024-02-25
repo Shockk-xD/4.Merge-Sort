@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 6077336927771205627}
   - component: {fileID: 2056554816816154514}
   - component: {fileID: 8552197723207149294}
-  m_Layer: 0
+  - component: {fileID: -6637589292050633801}
+  m_Layer: 8
   m_Name: 7 Melon
   m_TagString: Melon
   m_Icon: {fileID: 0}
@@ -103,7 +104,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: ad2f3eaaf29bfb14abc20a428b9ffead, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -169,14 +170,14 @@ PolygonCollider2D:
       - {x: -2.0496407, y: 0.5299809}
       - {x: -1.8384755, y: 0.06079489}
       - {x: -1.5994023, y: -0.23286997}
-      - {x: -1.2203296, y: -0.5575317}
-      - {x: -0.6467107, y: -0.8152218}
-      - {x: 0.016163591, y: -0.8893375}
-      - {x: 0.7865199, y: -0.75610155}
+      - {x: -1.2191545, y: -0.5457796}
+      - {x: -0.6467107, y: -0.8029191}
+      - {x: 0.011242362, y: -0.9041005}
+      - {x: 0.7717565, y: -0.77086455}
       - {x: 1.3334764, y: -0.4953074}
-      - {x: 1.850673, y: 0.056018673}
+      - {x: 1.8643022, y: 0.03784671}
       - {x: 2.050771, y: 0.47328937}
-      - {x: 2.1115081, y: 0.80559003}
+      - {x: 2.132266, y: 0.826348}
   m_UseDelaunayMesh: 0
 --- !u!114 &8552197723207149294
 MonoBehaviour:
@@ -193,4 +194,20 @@ MonoBehaviour:
   _index: 6
   _scoreValue: 7
   hasCollided: 0
+  hasVibrated: 0
   canCollide: 0
+--- !u!114 &-6637589292050633801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177943449317063068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f107d63f7fbfb35459b25d1ca21e9063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minX: -1.171
+  _maxX: 1.171
+  lineColor: {r: 0.9176471, g: 0.5294118, b: 0.26666668, a: 0}

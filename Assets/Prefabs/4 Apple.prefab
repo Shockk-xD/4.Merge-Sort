@@ -104,7 +104,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: ad2f3eaaf29bfb14abc20a428b9ffead, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -193,6 +193,7 @@ MonoBehaviour:
   _index: 3
   _scoreValue: 4
   hasCollided: 0
+  hasVibrated: 0
   canCollide: 0
 --- !u!114 &-4199405183809563859
 MonoBehaviour:
@@ -206,6 +207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f107d63f7fbfb35459b25d1ca21e9063, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minX: -1.45
-  _maxX: 1.45
+  _minX: -1.441
+  _maxX: 1.441
   lineColor: {r: 0.9803922, g: 0.8431373, b: 0.6313726, a: 0}

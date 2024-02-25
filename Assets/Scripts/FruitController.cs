@@ -26,6 +26,9 @@ public class FruitController : MonoBehaviour {
     private float _timerToSpawn = 0f;
     private bool _isPlayingDequeueAnimation = false;
 
+    public static int minFruitIndex = 0;
+    public static int maxFruitIndex = 4;
+
     public GameObject CurrentFruitGameObject {
         get {
             int childCount = _generatedFruits.transform.childCount;
@@ -66,7 +69,7 @@ public class FruitController : MonoBehaviour {
     }
 
     public void DropFruit() {
-        if (_timerToSpawn < 0.5f || _isPlayingDequeueAnimation) return;
+        if (_timerToSpawn < 0.5f || _isPlayingDequeueAnimation || !GameController.IsPlaying) return;
         _timerToSpawn = 0;
 
         int childCount = _generatedFruits.transform.childCount;
@@ -85,7 +88,7 @@ public class FruitController : MonoBehaviour {
         nextFruits.RemoveAt(0);
         _controllerUI.fruitsQueueUI.RemoveAt(0);
 
-        int randIndex = UnityEngine.Random.Range(0, 5);
+        int randIndex = UnityEngine.Random.Range(minFruitIndex, maxFruitIndex + 1);
         nextFruits.Add(_fruits[randIndex]);
         _controllerUI.fruitsQueueUI.Add(_controllerUI.fruitSprites[randIndex]);
 
@@ -96,13 +99,13 @@ public class FruitController : MonoBehaviour {
     public void SpawnNewFruit(Vector2 pos1, Vector2 pos2, int index) {
         if (index < _fruits.Length - 1) {
             var fruit = Instantiate(_fruits[index + 1], _mergedFruits);
+            Destroy(fruit.GetComponent<FruitSwipeController>());
             fruit.transform.position = new Vector2(
                 (pos1.x + pos2.x) / 2,
                 (pos1.y + pos2.y) / 2
                 );
             StartCoroutine(SpawnAnimation(fruit, 5));
-            if (fruit.layer != 0)
-                fruit.layer = 0;
+            fruit.layer = 0;
             fruit.GetComponent<Fruit>().hasVibrated = true;
 
             var particle = Instantiate(_destroyParticle);
@@ -149,7 +152,7 @@ public class FruitController : MonoBehaviour {
     }
 
     public void DestroySmallFruits() {
-        if (GameController.instance.cleanCount > 0) {
+        if (GameController.instance.cleanCount > 0 || GameController.IsFunMode) {
             List<GameObject> fruitsToDelete = new List<GameObject>();
 
             var berries = GameObject.FindGameObjectsWithTag("Berry");
@@ -188,7 +191,7 @@ public class FruitController : MonoBehaviour {
     }
 
     public void Dequeue() {
-        if (GameController.instance.dequeueCount > 0) {
+        if (GameController.instance.dequeueCount > 0 || GameController.IsFunMode) {
             _isPlayingDequeueAnimation = true;
             StartCoroutine(DequeueRoutine());
             GameController.instance.dequeueCount--;
@@ -221,5 +224,51 @@ public class FruitController : MonoBehaviour {
 
         Destroy(currentFruit);
         GenerateNextFruit();
+    }
+
+    public IEnumerator DestroyAllFruitsAnimation() {
+        float destroyTime = 0.2f;
+        float timer = 0f;
+
+        var currentFruit = CurrentFruitGameObject;
+        yield return new WaitUntil(() => {
+            timer += Time.deltaTime;
+            float t = timer / destroyTime;
+
+            currentFruit.transform.localScale = Vector3.Lerp(
+                currentFruit.transform.localScale,
+                Vector3.zero,
+                t
+                );
+            _line.widthMultiplier = Mathf.Lerp(_line.widthMultiplier, 0, t);
+
+            return currentFruit.transform.localScale == Vector3.zero && _line.widthMultiplier == 0;
+        });
+
+        var fruits = GameObject.FindObjectsOfType<Fruit>();
+        for (int i = 0; i < fruits.Length; i++) {
+            fruits[i].GetComponent<Rigidbody2D>().simulated = false;
+            Destroy(fruits[i].GetComponent<Collider2D>());
+        }
+
+        destroyTime = 0.1f;
+        for (int i = 0; i < fruits.Length; i++) {
+            yield return DestroyAnimation(fruits[i].transform);
+        }
+
+        IEnumerator DestroyAnimation(Transform fruitTransform) {
+            float timer = 0f;
+            yield return new WaitUntil(() => {
+                timer += Time.deltaTime;
+                float t = timer / destroyTime;
+                fruitTransform.localScale = Vector3.Lerp(
+                    fruitTransform.localScale,
+                    Vector3.zero,
+                    t
+                    );
+                return fruitTransform.localScale == Vector3.zero;
+            });
+            Destroy(fruitTransform.gameObject);
+        }
     }
 }

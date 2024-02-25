@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: -8830743857215421697}
   - component: {fileID: 573377444863418880}
   - component: {fileID: -3525686547343784886}
-  m_Layer: 0
+  - component: {fileID: -62601789142733133}
+  m_Layer: 8
   m_Name: 8 Peach
   m_TagString: Peach
   m_Icon: {fileID: 0}
@@ -103,7 +104,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: ad2f3eaaf29bfb14abc20a428b9ffead, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -190,4 +191,20 @@ MonoBehaviour:
   _index: 7
   _scoreValue: 8
   hasCollided: 0
+  hasVibrated: 0
   canCollide: 0
+--- !u!114 &-62601789142733133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7491778224154763641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f107d63f7fbfb35459b25d1ca21e9063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minX: -1.31
+  _maxX: 1.31
+  lineColor: {r: 0.4666667, g: 0.11764707, b: 0.1254902, a: 0}

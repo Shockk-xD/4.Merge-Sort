@@ -30,10 +30,15 @@ public class FruitLineRenderer : MonoBehaviour
                 );
             _line.SetPosition(1, new Vector3(currentFruit.transform.position.x, _hitPoint.y, -1));
 
-            Color lineColor = currentFruit.GetComponent<FruitSwipeController>().lineColor;
-            lineColor = new Color(lineColor.r, lineColor.g, lineColor.b, 1);
-            _line.startColor = lineColor;
-            _line.endColor = lineColor;
+            var fruitSwipeController = currentFruit.GetComponent<FruitSwipeController>();
+
+            if (fruitSwipeController) {
+                Color lineColor = fruitSwipeController.lineColor;
+
+                lineColor = new Color(lineColor.r, lineColor.g, lineColor.b, 1);
+                _line.startColor = lineColor;
+                _line.endColor = lineColor;
+            }
         }
     }
 

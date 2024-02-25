@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,8 +14,13 @@ public class UIController : MonoBehaviour
     [SerializeField] private Text _loseMenuScoreText;
     [SerializeField] private Text _cleanButtonCountText;
     [SerializeField] private Text _dequeueButtonCountText;
+    [SerializeField] private Text _bouncinessText;
+    [SerializeField] private Text _frictionText;
     [SerializeField] private Image[] _nextFruitsUI;
     [SerializeField] private Button _dequeueButton;
+    [Header("Fun Mode Properties")]
+    [SerializeField] private Text _funModeText;
+    [SerializeField]
 
     private void Start() {
         int score = GameController.instance.Score;
@@ -72,5 +77,36 @@ public class UIController : MonoBehaviour
 
     public void DequeueButtonInteractable(bool value) {
         _dequeueButton.interactable = value;
+    }
+
+    public void UpdateBouncinessText(float value) {
+        _bouncinessText.text = value.ToString("0.0");
+    }
+
+    public void UpdateFrictionText(float value) {
+        _frictionText.text = value.ToString("0.0");
+    }
+
+    public void FunModeButtonClick() {
+        canvasAnimator.SetTrigger("Goto Fun Settings");
+        
+        if (!GameController.IsFunMode) {
+            GameController.instance.EnableFunMode();
+            _funModeText.text = "Edit" + "\n" + "Fun Mode";
+        }
+    }
+
+    public void FunSettingsCloseButtonClick() {
+        GameController.instance.Resume("Fun Settings Close");
+    }
+
+    public void SetInfinityBuffsButtonClick(bool isInfinity) {
+        if (isInfinity) {
+            _cleanButtonCountText.text = "∞";
+            _dequeueButtonCountText.text = "∞";
+        } else {
+            UpdateCleanButtonText();
+            UpdateDequeueButtonText();
+        }
     }
 }
