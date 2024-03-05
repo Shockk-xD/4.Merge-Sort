@@ -34,10 +34,12 @@ public class GameController : MonoBehaviour {
 
     private void Awake() {
         instance = this;
+        Application.targetFrameRate = -1;
     }
 
     private void Start() {
         IsPlaying = true;
+        IsFunMode = false;
 
         _bestScore = PlayerPrefs.GetInt("Best Score", 0);
     }

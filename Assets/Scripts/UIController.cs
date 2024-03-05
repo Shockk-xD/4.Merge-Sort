@@ -16,11 +16,13 @@ public class UIController : MonoBehaviour
     [SerializeField] private Text _dequeueButtonCountText;
     [SerializeField] private Text _bouncinessText;
     [SerializeField] private Text _frictionText;
+    [SerializeField] private Text _spawnDelayText;
     [SerializeField] private Image[] _nextFruitsUI;
     [SerializeField] private Button _dequeueButton;
     [Header("Fun Mode Properties")]
     [SerializeField] private Text _funModeText;
-    [SerializeField]
+
+    private bool _isInfinityBuffs = false;
 
     private void Start() {
         int score = GameController.instance.Score;
@@ -64,6 +66,11 @@ public class UIController : MonoBehaviour
     }
 
     public void UpdateCleanButtonText() {
+        if (_isInfinityBuffs) {
+            _cleanButtonCountText.text = "∞";
+            return;
+        }
+
         _cleanButtonCountText.text = GameController.instance.cleanCount.ToString();
     }
 
@@ -72,6 +79,11 @@ public class UIController : MonoBehaviour
     }
 
     public void UpdateDequeueButtonText() {
+        if (_isInfinityBuffs) {
+            _dequeueButtonCountText.text = "∞";
+            return;
+        }
+
         _dequeueButtonCountText.text = GameController.instance.dequeueCount.ToString();
     }
 
@@ -85,6 +97,10 @@ public class UIController : MonoBehaviour
 
     public void UpdateFrictionText(float value) {
         _frictionText.text = value.ToString("0.0");
+    }
+
+    public void UpdateSpawnDelayText(float delay) {
+        _spawnDelayText.text = delay.ToString("0.0");
     }
 
     public void FunModeButtonClick() {
@@ -101,12 +117,8 @@ public class UIController : MonoBehaviour
     }
 
     public void SetInfinityBuffsButtonClick(bool isInfinity) {
-        if (isInfinity) {
-            _cleanButtonCountText.text = "∞";
-            _dequeueButtonCountText.text = "∞";
-        } else {
-            UpdateCleanButtonText();
-            UpdateDequeueButtonText();
-        }
+        _isInfinityBuffs = isInfinity;
+        UpdateCleanButtonText();
+        UpdateDequeueButtonText();
     }
 }

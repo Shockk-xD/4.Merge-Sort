@@ -29,6 +29,8 @@ public class FruitController : MonoBehaviour {
     public static int minFruitIndex = 0;
     public static int maxFruitIndex = 4;
 
+    public static float spawnDelay = 0.5f;
+
     public GameObject CurrentFruitGameObject {
         get {
             int childCount = _generatedFruits.transform.childCount;
@@ -38,12 +40,16 @@ public class FruitController : MonoBehaviour {
     }
 
     private void Start() {
+        minFruitIndex = 0;
+        maxFruitIndex = 4;
+        spawnDelay = 0.5f;
+
         instance = this;
         SpawnFirstFruits();
     }
 
     private void Update() {
-        if (_timerToSpawn <= 0.5)
+        if (_timerToSpawn <= spawnDelay)
             _timerToSpawn += Time.deltaTime;
     }
 
@@ -69,7 +75,7 @@ public class FruitController : MonoBehaviour {
     }
 
     public void DropFruit() {
-        if (_timerToSpawn < 0.5f || _isPlayingDequeueAnimation || !GameController.IsPlaying) return;
+        if (_timerToSpawn < spawnDelay || _isPlayingDequeueAnimation || !GameController.IsPlaying) return;
         _timerToSpawn = 0;
 
         int childCount = _generatedFruits.transform.childCount;
@@ -134,7 +140,8 @@ public class FruitController : MonoBehaviour {
         yield return new WaitUntil(() => {
             t += Time.deltaTime * speed;
 
-            fruit.transform.localScale = Vector3.Lerp(Vector3.zero, defaultScale, t);
+            if (fruit)
+                fruit.transform.localScale = Vector3.Lerp(Vector3.zero, defaultScale, t);
             if (isFruitMerged)
                 _line.widthMultiplier = Mathf.Lerp(0, 0.3f, t);
 

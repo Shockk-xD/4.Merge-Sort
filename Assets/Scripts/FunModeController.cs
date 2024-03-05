@@ -18,13 +18,16 @@ public class FunModeController : MonoBehaviour
     public void ChangeBounciness(float value) {
         _material.bounciness = value;
         _controllerUI.UpdateBouncinessText(value);
-        PlayerPrefs.SetFloat("Bounciness", value);
     }
 
     public void ChangeFriction(float value) {
         _material.friction = value;
         _controllerUI.UpdateFrictionText(value);
-        PlayerPrefs.SetFloat("Friction", value);
+    }
+
+    public void ChangeSpawnDelay(float delay) {
+        FruitController.spawnDelay = delay;
+        _controllerUI.UpdateSpawnDelayText(delay);
     }
 
     public void ChangeMinFruit(float index) {
